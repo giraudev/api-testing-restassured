@@ -10,7 +10,8 @@ public class ApiTests {
     @Test
     public void getCategories(){
         String endpoint = "http://localhost:8888/api_testing/category/read.php";
-        var response = given().when().get(endpoint).then();
+        var response = given().when().get(endpoint)
+                .then().assertThat().statusCode(200);
         response.log().body();
     }
 
@@ -18,10 +19,8 @@ public class ApiTests {
     public void getProduct(){
         String endpoint = "http://localhost:8888/api_testing/product/read_one.php";
         var response =
-                given()
-                        .queryParam("id",2).
-                        when().
-                        get(endpoint).then();
+                given().queryParam("id",2).
+                        when().get(endpoint).then();
         response.log().body();
     }
 
@@ -57,10 +56,8 @@ public class ApiTests {
     public void deleteProductWithId(){
         String endpoint = "http://localhost:8888/api_testing/product/delete.php";
         var response =
-                given()
-                        .queryParam("id",20).
-                        when().
-                        delete(endpoint).then();
+                given().queryParam("id",20).
+                        when().delete(endpoint).then();
         response.log().body();
     }
 
@@ -73,9 +70,7 @@ public class ApiTests {
                }""";
 
         var response =
-                given().body(body).
-                        when().
-                        delete(endpoint).then();
+                given().body(body).when().delete(endpoint).then();
         response.log().body();
     }
 
