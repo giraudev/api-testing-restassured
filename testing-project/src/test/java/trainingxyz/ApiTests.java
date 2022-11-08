@@ -10,6 +10,7 @@ public class ApiTests {
     public void getCategories(){
         String endpoint = "http://localhost:8888/api_testing/category/read.php";
         var response = given().when().get(endpoint).then();
+        response.log().body();
     }
 
     @Test
@@ -17,6 +18,9 @@ public class ApiTests {
         String endpoint = "http://localhost:8888/api_testing/product/read_one.php";
         var response =
                 given()
-                        .queryParam("id").when().get(endpoint).then();
+                        .queryParam("id",2).
+                        when().
+                        get(endpoint).then();
+        response.log().body();
     }
 }
