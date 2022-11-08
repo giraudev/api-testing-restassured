@@ -4,7 +4,7 @@ import models.Product;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.*;
 
 public class ApiTests {
 
@@ -45,6 +45,22 @@ public class ApiTests {
                 given().queryParam("id",2).
                         when().get(endpoint).then();
         response.log().body();
+    }
+
+    @Test
+    public void getProductWithGreaterThan(){
+        String endpoint = "http://localhost:8888/api_testing/product/read.php";
+        var response =
+                given().when().get(endpoint).then()
+                        .log().body().assertThat().statusCode(200)
+                        .body("records.size()", greaterThan(4))
+                        .body("records.id", everyItem(notNullValue()))
+                        .body("records.name", everyItem(notNullValue()))
+                        .body("records.category_id", everyItem(notNullValue()))
+                        .body("records.category_name", everyItem(notNullValue()))
+                        .body("records.description", everyItem(notNullValue()))
+                        .body("records.price", everyItem(notNullValue()));
+                        //.body("records.id[0]",equalTo("1002"));
     }
 
     @Test
