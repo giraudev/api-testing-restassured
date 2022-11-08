@@ -22,14 +22,4 @@ public class Product {
         setPrice(price);
         setCategory_id(category_id);
     }
-
-    //Used for PUT requests
-    public Product(int id, String name, String description, double price, int category_id){
-        setId(id);
-        setName(name);
-        setDescription(description);
-        setPrice(price);
-        setCategory_id(category_id);
-    }
-
 }

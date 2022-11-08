@@ -64,6 +64,23 @@ public class ApiTests {
     }
 
     @Test
+    public void getProductHeader(){
+        String endpoint = "http://localhost:8888/api_testing/product/read.php";
+        var response =
+                given().when().get(endpoint).then()
+                        .log().headers().assertThat().statusCode(200)
+                        .headers("Content-Type", equalTo("application/json; charset=UTF-8"))
+                        .body("records.size()", greaterThan(4))
+                        .body("records.id", everyItem(notNullValue()))
+                        .body("records.name", everyItem(notNullValue()))
+                        .body("records.category_id", everyItem(notNullValue()))
+                        .body("records.category_name", everyItem(notNullValue()))
+                        .body("records.description", everyItem(notNullValue()))
+                        .body("records.price", everyItem(notNullValue()));
+        //.body("records.id[0]",equalTo("1002"));
+    }
+
+    @Test
     public void createProduct(){
         String endpoint = "http://localhost:8888/api_testing/product/create.php";
         String body = """
