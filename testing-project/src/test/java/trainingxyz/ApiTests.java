@@ -1,5 +1,6 @@
 package trainingxyz;
 
+import models.Product;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
@@ -76,5 +77,15 @@ public class ApiTests {
                         when().
                         delete(endpoint).then();
         response.log().body();
+    }
+
+    @Test
+    public void createSerializeProduct(){
+        String endpoint = "http://localhost:8888/api_testing/product/create.php";
+        Product product = new Product("Water Bottlle", "Blue water", 12, 3);
+
+        var response = given().body(product).post(endpoint).then();
+        response.log().body();
+
     }
 }
