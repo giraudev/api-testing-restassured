@@ -4,6 +4,7 @@ import models.Product;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
 
 public class ApiTests {
 
@@ -16,7 +17,29 @@ public class ApiTests {
     }
 
     @Test
+    public void getProducts(){
+        String endpoint = "http://localhost:8888/api_testing/product/read.php";
+        given().when().get(endpoint)
+                .then().assertThat().statusCode(200).log().body();
+    }
+
+    @Test
     public void getProduct(){
+        String endpoint = "http://localhost:8888/api_testing/product/read_one.php";
+        var response =
+                given().queryParam("id",1002).
+                        when().get(endpoint).then().assertThat()
+                        .statusCode(200)
+                        .body("id",equalTo("1002"))
+                        .body("name", equalTo("Water Bottlle"))
+                        .body("description", equalTo("Blue water"))
+                        .body("price", equalTo("12.00")).body("category_id", equalTo("3"))
+                        .body("category_name", equalTo("Active Wear - Unisex"));
+        response.log().body();
+    }
+
+    @Test
+    public void getProductWithAssert(){
         String endpoint = "http://localhost:8888/api_testing/product/read_one.php";
         var response =
                 given().queryParam("id",2).
